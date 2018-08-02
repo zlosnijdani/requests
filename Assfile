@@ -1,0 +1,28 @@
+project: requests
+git: git@github.com:zlosnijdani/requests.git
+description: HTTP for Humans.
+module: requests
+
+tasks:
+
+  gotoenv:
+    private: true
+    template: activate@pymodule
+  
+  build:
+    related: clean
+    template: pymodule
+    src: setup.py
+
+  install:
+    related:
+      - build
+      - gotoenv
+    template: pymodule
+    src: setup.py
+    then:
+      template: deactivate@pymodule
+
+  clean:
+    recursive: false
+    shell: rm -rf build
